@@ -1,5 +1,7 @@
 package com.login.loginwebservice.models;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +20,7 @@ public class User {
 
     private String password;
 
-    private boolean expired;
+    private Date passwordExpirationDate;
 
     public Long getId() {
         return id;
@@ -44,11 +46,11 @@ public class User {
         this.password = password;
     }
 
-    public boolean isExpired() {
-        return expired;
+    public Date passwordExpirationDate() {
+        return passwordExpirationDate;
     }
 
-    public void setExpired(boolean expired) {
-        this.expired = expired;
+    public void setPasswordExpirationDate(Date passwordExpirationDate) {
+        this.passwordExpirationDate = passwordExpirationDate;
     }
 }

@@ -18,13 +18,13 @@ public class LoginSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
 
-    @Override
+    /* @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
 
     @Override
-	protected void configure(HttpSecurity http) throws Exception {
+	  protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
         .antMatchers("/login").permitAll()
         .and()
@@ -34,7 +34,30 @@ public class LoginSecurityConfig extends WebSecurityConfigurerAdapter {
           .defaultSuccessUrl("/home")
           .failureUrl("/login?error=true")
           .permitAll();
-	}
+	  } */
+
+    @Autowired
+    private PasswordEncoder passwordEncoder; 
+      
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception { 
+        auth.inMemoryAuthentication() 
+        .withUser("admin") 
+        .password(passwordEncoder.encode("admin123")) 
+        .roles("admin"); 
+    } 
+      
+    // Configuring basic authentication through configure method 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception { 
+        http.authorizeRequests()
+        .antMatchers("/home", "/reset").authenticated() 
+        .antMatchers("/login", "/register").permitAll() 
+            .and() 
+            .formLogin().loginPage("/login") 
+            .and() 
+            .httpBasic(); 
+    } 
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -1,5 +1,6 @@
 package com.login.loginwebservice.models;
 
+import java.sql.Date;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -9,12 +10,12 @@ public class LoggedInUserDetails implements UserDetails {
 
     private String userName;
     private String password;
-    private boolean expired;
+    private Date passwordExpirationDate;
 
     public LoggedInUserDetails(User user) {
           this.userName = user.getUserName();
           this.password = user.getPassword();
-          this.expired = user.isExpired();
+          this.passwordExpirationDate = user.passwordExpirationDate();
     }
 
     public LoggedInUserDetails() {}
@@ -31,7 +32,8 @@ public class LoggedInUserDetails implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return !expired;
+        Date systemDate = new Date(System.currentTimeMillis());
+        return passwordExpirationDate.after(systemDate);
     }
 
     @Override
