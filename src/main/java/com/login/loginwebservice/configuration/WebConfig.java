@@ -12,9 +12,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan("com.login.loginwebservice")
 public class WebConfig implements WebMvcConfigurer {
 	@Bean
-	public InternalResourceViewResolver viewResolver() {
-		InternalResourceViewResolver irvr = new InternalResourceViewResolver();
-		irvr.setOrder(0);
-		return irvr;
-	}
+    InternalResourceViewResolver viewResolver() { 
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver(); 
+        viewResolver.setPrefix("/WEB-INF/templates/"); 
+        viewResolver.setSuffix(".jsp"); 
+        return viewResolver; 
+    } 
 }
